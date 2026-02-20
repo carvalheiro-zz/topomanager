@@ -27,6 +27,7 @@ public class ExcelService {
 
 	private final RegistroRepository repository;
 
+	// FIXME PODE SER REMOVIDO
 	@Transactional
 	public void importar(InputStream is) throws Exception {
 		List<RegistroExcel> listaParaSalvar = new ArrayList<>();

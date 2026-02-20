@@ -104,3 +104,16 @@ Clique em "Try it out".
 No campo arquivo, clique em "Escolher arquivo" e selecione sua planilha.
 
 Clique em "Execute".
+
+
+
+# TopoManager
+
+Sistema de processamento de planilhas para cruzamento de dados e geração de combinações.
+
+## 🚀 Como rodar
+1. Certifique-se de ter o Docker instalado.
+2. Clone o repositório.
+3. No terminal, execute:
+   ```bash
+   docker-compose up --build
