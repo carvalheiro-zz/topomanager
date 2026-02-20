@@ -1,39 +1,41 @@
 version: '3.8'
+
 services:
   db:
     image: mysql:5.7
-    command: --innodb-buffer-pool-size=2G --innodb-log-file-size=512M --max-connections=200
     container_name: mysql_topo
     restart: always
+    # Configurações de performance para o banco (Buffer Pool de 2GB)
+    command: --innodb-buffer-pool-size=2G --innodb-log-file-size=512M --max-connections=200
     environment:
       MYSQL_DATABASE: topomanager
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3307:3306"
     volumes:
-      # Os dados do banco ficarão salvos na pasta 'mysql_data' na raiz do seu projeto
+      # O .gitignore deve ignorar esta pasta mysql_data
       - ./mysql_data:/var/lib/mysql
     deploy:
       resources:
         limits:
-           memory: 3G # Limite físico do container
+          memory: 3G
 
   app:
     build: .
     container_name: topomanager_app
-    restart: on-failure
+    restart: always
     depends_on:
       - db
     ports:
       - "8080:8080"
     environment:
-       # Configuração de Memória do Java (JVM)
-       - JAVA_OPTS=-Xms1g -Xmx4g -XX:+UseG1GC
-       # Sobrescreve as propriedades para o host do container 'db'
-       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/topomanager?rewriteBatchedStatements=true&useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true
-       - SPRING_DATASOURCE_USERNAME=root
-       - SPRING_DATASOURCE_PASSWORD=root
+      # Injetando as configurações de memória que o seu ENTRYPOINT [sh -c] vai ler
+      - JAVA_OPTS=-Xms1g -Xmx4g -XX:+UseG1GC
+      # Configurações do Spring Boot
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/topomanager?rewriteBatchedStatements=true&useSSL=false&serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
     deploy:
-       resources:
-         limits:
-           memory: 5G # Deixamos uma margem para o Java e o sistema do container
+      resources:
+        limits:
+          memory: 5G
