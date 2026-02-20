@@ -1,0 +1,13 @@
+# Ignora a pasta de dados do MySQL
+mysql_data/
+
+# Ignora pastas do Eclipse/Java
+target/
+bin/
+.settings/
+.project/
+.classpath/
+
+# Ignora logs e arquivos temporários
+*.log
+.git/

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopoManager - Excel Tool</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; line-height: 1.6; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; }
+        .btn { display: inline-block; padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; margin-top: 10px; }
+        .btn:hover { background: #2980b9; }
+        .btn-download { background: #27ae60; }
+        .btn-download:hover { background: #219150; }
+        .status { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+	<div class="card">
+		<div style="margin-top: 20px;">
+		    <label for="cadeiaNumeros" style="display: block; margin-bottom: 5px;">Cadeia de Números:</label>
+		    <input type="text" 
+		           id="cadeiaNumeros" 
+		           name="cadeiaNumeros" 
+		           size="50" 
+		           maxlength="50" 
+		           placeholder="Ex: 2,3,5,6,9,10,11,13,14,16,18,20,23,24,25"
+		           oninput="this.value = this.value.replace(/[^0-9,]/g, '')"
+		           style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">
+		</div>
+			
+        <h2>Carga de Dados (.xlsx)</h2>
+        <p>Selecione uma planilha com os POSITIVOS e NEGATIVOS para importar.</p>
+        <input type="file" id="inputArquivo" accept=".xlsx">
+        <button id="btnProcessar" class="btn" onclick="processar()">Importar e Processar Planilha</button>
+        <!--<div id="statusProcesso" class="status"></div>-->
+		
+		<div id="resultado-info" style="margin-top: 10px;">
+		    <span id="statusProcesso">Aguardando arquivo...</span>
+		    <br>
+		    <small id="tempoExecucao" style="color: #666; font-weight: bold;"></small>
+		</div>
+    </div>
+
+    <br>
+		
+    <div class="card">
+        <h2>Carga de Dados (.xlsx)</h2>
+        <p>Selecione uma planilha com colunas A-G para importar.</p>
+        <input type="file" id="inputArquivo" accept=".xlsx">
+        <button class="btn" onclick="fazerUpload()">Importar Planilha</button>
+        <div id="statusUpload" class="status"></div>
+    </div>
+
+    <br>
+
+    <div class="card">
+        <h2>Exportar Resultados</h2>
+        <p>Baixar registros onde <b>A é Par</b> e <b>B é Múltiplo de 10</b>.</p>
+        <button class="btn btn-download" onclick="fazerDownload()">Baixar resultado.xlsx</button>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8081/api/excel';
+
+        async function fazerUpload() {
+            const input = document.getElementById('inputArquivo');
+            const status = document.getElementById('statusUpload');
+            
+            if (!input.files[0]) {
+                alert("Selecione um arquivo primeiro!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('arquivo', input.files[0]);
+
+            status.innerText = "Processando... aguarde.";
+            status.style.color = "blue";
+
+            try {
+                const response = await fetch(`${API_URL}/importar`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    status.innerText = "✅ Importado com sucesso!";
+                    status.style.color = "green";
+                } else {
+                    const erro = await response.text();
+                    status.innerText = "❌ Erro: " + erro;
+                    status.style.color = "red";
+                }
+            } catch (err) {
+                status.innerText = "❌ Erve de conexão com o servidor.";
+                status.style.color = "red";
+            }
+        }
+
+		async function fazerDownload() {
+		    try {
+		        // Usando a URL que você confirmou que funciona
+		        const response = await fetch(`${API_URL}/download`);
+		        
+		        if (response.status === 404) {
+		            const msg = await response.text();
+		            alert(msg); 
+		            return;
+		        }
+
+		        if (!response.ok) throw new Error("Erro ao baixar arquivo do servidor.");
+
+		        // 1. Recebe os dados brutos (blob)
+		        const blob = await response.blob();
+
+		        // 2. Cria uma URL temporária na memória do navegador para esse arquivo
+		        const url = window.URL.createObjectURL(blob);
+		        
+		        // 3. Cria um elemento <a> (link) invisível
+		        const a = document.createElement('a');
+		        a.style.display = 'none';
+		        a.href = url;
+		        a.download = "resultado_filtrado.xlsx"; // Nome do arquivo que o usuário verá
+		        
+		        // 4. Adiciona à página, clica e remove logo em seguida
+		        document.body.appendChild(a);
+		        a.click();
+		        
+		        // 5. Limpa a memória
+		        window.URL.revokeObjectURL(url);
+		        document.body.removeChild(a);
+
+		        console.log("Download iniciado com sucesso!");
+
+		    } catch (err) {
+		        console.error("Erro no download:", err);
+		        alert("Falha ao baixar o arquivo: " + err.message);
+		    }
+		}
+		
+		async function processar() {
+			document.getElementById('btnProcessar').disabled = true;
+			
+		    const input = document.getElementById('inputArquivo');
+		    const status = document.getElementById('statusProcesso');
+		    const cadeia = document.getElementById('cadeiaNumeros').value;
+		    const labelTempo = document.getElementById('tempoExecucao');
+		    
+		    if (!input.files[0]) {
+		        alert("Selecione um arquivo primeiro!");
+		        return;
+		    }
+
+		    const formData = new FormData();
+		    formData.append('arquivo', input.files[0]);
+		    formData.append('cadeia', cadeia);
+
+		    status.innerText = "⏳ Processando... aguarde.";
+		    status.style.color = "blue";
+		    labelTempo.innerText = ""; // Limpa o tempo anterior
+
+		    try {
+		        const response = await fetch(`${API_URL}/processar`, {
+		            method: 'POST',
+		            body: formData
+		        });
+
+		        // Verificamos se a resposta foi sucesso ANTES de tentar ler como JSON
+		        if (response.ok) {
+		            const result = await response.json();
+					
+					labelTempo.innerText = `🕒 Processado em: ${result.tempoExecucao} (Total: ${result.totalRegistros} itens)`;
+		            
+		            status.innerText = "✅ " + (result.mensagem || "Processamento concluído!");
+		            status.style.color = "green";
+		        } else {
+		            // Se não for OK, tentamos ler como texto (para mostrar a mensagem de erro do Java)
+		            const erroMsg = await response.text();
+		            status.innerText = "❌ Erro: " + erroMsg;
+		            status.style.color = "red";
+		        }
+		    } catch (err) {
+		        console.error(err);
+		        status.innerText = "❌ Erro de conexão com o servidor.";
+		        status.style.color = "red";
+		    }
+			document.getElementById('btnProcessar').disabled = false;
+		}
+    </script>
+</body>
+</html>
