@@ -70,7 +70,7 @@ public class ExcelService {
 	public List<NumerosPositivos> importar210(Workbook workbook/*InputStream is*/) throws Exception {
 		List<NumerosPositivos> listaPositivosParaSalvar = new ArrayList<>();
 
-		log.info("Iniciando processaento da planilha 210 (Positivos)");
+		log.info("Iniciando processamento da planilha 210 (Positivos)");
 		//try (Workbook workbook = new XSSFWorkbook(is)) {
 			Sheet sheet = workbook.getSheetAt(0);
 
@@ -83,11 +83,11 @@ public class ExcelService {
 	            Cell cellA = row.getCell(0);
 				// 3. CONDIÇÃO DE PARADA: Se a célula A estiver vazia ou sem valor
 	            if (cellA == null || cellA.getCellType() == CellType.BLANK) {
-	                System.out.println("Leitura interrompida: Celula A está vazia.");
+	                log.info("Leitura interrompida: Celula A está vazia.");
 	                break; // Sai do laço 'for' e encerra a leitura da planilha
 	            }
 				
-				log.info("Processando linha: {} de {}", row.getRowNum(), sheet.getLastRowNum());
+				//log.info("Processando linha: {} de {}", row.getRowNum(), sheet.getLastRowNum());
 				NumerosPositivos registro = NumerosPositivos.builder()
 						.colunaA((int) row.getCell(0).getNumericCellValue())
 						.colunaB((int) row.getCell(1).getNumericCellValue())
@@ -101,19 +101,20 @@ public class ExcelService {
 				listaPositivosParaSalvar.add(registro);
 			}
 		//}
+			log.info("Linhas processadas da planilha 210 (Positivos): {}", listaPositivosParaSalvar.size());
 		return listaPositivosParaSalvar;
 	}
 	
 	public List<NumerosNegativos> importar5005(Workbook workbook/*InputStream is*/) throws Exception {
 		List<NumerosNegativos> listaNegativosParaSalvar = new ArrayList<>();
 
-		log.info("Iniciando processaento da planilha 5005 (Negativos)");
+		log.info("Iniciando processamento da planilha 5005 (Negativos)");
 		//try (Workbook workbook = new XSSFWorkbook(is)) {
 			Sheet sheet = workbook.getSheetAt(0);
 
 			for (Row row : sheet) {
 				if (row.getRowNum() == 0) continue; // Pula cabeçalho
-				log.info("Processando linha: {} de {}", row.getRowNum(), sheet.getLastRowNum());
+				//log.info("Processando linha: {} de {}", row.getRowNum(), sheet.getLastRowNum());
 				NumerosNegativos registro = NumerosNegativos.builder()
 						.colunaH((int) row.getCell(7).getNumericCellValue())
 						.colunaI((int) row.getCell(8).getNumericCellValue())
@@ -127,6 +128,7 @@ public class ExcelService {
 				listaNegativosParaSalvar.add(registro);
 			}
 		//}
+			log.info("Linhas processadas da planilha 5005 (Negativos): {}", listaNegativosParaSalvar.size());
 		return listaNegativosParaSalvar;
 	}
 }
