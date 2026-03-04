@@ -61,7 +61,32 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:8081/api/excel';
+		// 1. Variável global (agora let, pois será reatribuída)
+		    let API_URL = '';
+
+		    // 2. Função assíncrona para buscar a config do servidor
+		    async function initApp() {
+		        const status = document.getElementById("status");
+		        try {
+		            // Busca a config do endpoint relativo (mesmo host que serve o HTML)
+		            const response = await fetch('/api/config/url');
+		            if (!response.ok) throw new Error("Falha ao carregar configuração");
+		            
+		            const data = await response.json();
+		            API_URL = data.apiUrl+"/api/excel";
+		            
+		            console.log("🚀 API configurada: " + API_URL);
+		            // Habilita os botões após carregar a URL
+		            document.querySelectorAll('.btn').forEach(b => b.disabled = false);
+		        } catch (err) {
+		            console.error("❌ Erro ao inicializar API_URL:", err);
+		            status.innerText = "❌ Erro de conexão com o servidor de configuração.";
+		            status.style.color = "red";
+		        }
+		    }
+
+		    // Inicializa ao carregar a página
+		    window.onload = initApp;
 
         async function fazerUpload() {
             const input = document.getElementById('inputArquivo');
