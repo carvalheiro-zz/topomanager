@@ -770,7 +770,7 @@ public class IdentificadorService {
         		}*/
     		for (GruposAgrupadosPOJO agrupado : listaOriginal) {   		
     			if(!"G4|C9".equals(agrupado.getGrupoId())) {
-    	    		continue;
+    	    		//continue;
     	    	}
 
     			GruposAgrupadosPOJO agrupamentos = new GruposAgrupadosPOJO();    		
