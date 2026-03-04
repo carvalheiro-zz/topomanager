@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/config")
 public class ConfigController {
 
-    @Value("${app.api.url:http://localhost:8080/api/excel}")
+    @Value("${app.api.url:http://localhost:8080}")
     private String apiUrl;
 
     @GetMapping("/url")
