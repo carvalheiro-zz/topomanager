@@ -4,13 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.srcsoftware.topomanager.controller.response.RespostaProcessamento;
 import br.com.srcsoftware.topomanager.model.pojo.GrupoPOJO;
-import br.com.srcsoftware.topomanager.service.ExcelService;
-import br.com.srcsoftware.topomanager.service.ExportarExcelService;
 import br.com.srcsoftware.topomanager.service.IdentificadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,53 +29,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Tag(name = "Importação", description = "Endpoint para upload e processamento de planilhas")
 public class ExcelController {
-
-    private final ExcelService excelService;
-    private final ExportarExcelService exportarService;
+    
     private final IdentificadorService identificadorService;
-
-    @PostMapping(value = "/importar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Realiza o upload de uma planilha Excel", 
-               description = "O arquivo deve conter as colunas A a G, sendo A e B números inteiros.")
-    public ResponseEntity<String> importarPlanilha(
-            @Parameter(description = "Arquivo .xlsx ou .xls") 
-            @RequestParam("arquivo") MultipartFile arquivo) {
-        
-        if (arquivo.isEmpty()) {
-            return ResponseEntity.badRequest().body("Por favor, selecione um arquivo.");
-        }
-        
-        if (!arquivo.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Somente arquivos .xlsx são permitidos.");
-        }
-
-        try {
-            excelService.importar(arquivo.getInputStream());
-            return ResponseEntity.ok("Processamento concluído com sucesso!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Erro ao processar planilha: " + e.getMessage());
-        }
-    }
-    
-    @GetMapping("/download")
-    @Operation(summary = "Exporta registros filtrados", description = "A=par e B=múltiplo de 10")
-    public ResponseEntity<Object> downloadExcel() {
-        try {
-            byte[] arquivo = exportarService.gerarRelatorioExcel();
-
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=resultado.xlsx")
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(arquivo);
-        } catch (RuntimeException e) {
-            // Se cair aqui, é porque a lista estava vazia (nossa validação no service)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro técnico ao gerar arquivo.");
-        }
-    }
-    
+  
     
     @PostMapping(value = "/processar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Realiza o upload de uma planilha Excel ( CENARIO 1 )", 

@@ -796,7 +796,7 @@ public class IdentificadorService {
     					//log.info("{} contem {}",agrupamentos.getGrupoId() , numerosNaoDeveTer);
     				}
     			} 
-parei aqui.
+
     			log.info("{} {} {}",agrupamentos.getAgrupamentosDeNumeros().size(), agrupado.getGrupoId(), numerosNaoDeveTer.toString());
     			gruposAgrupados.add(agrupamentos);
     		}    		
