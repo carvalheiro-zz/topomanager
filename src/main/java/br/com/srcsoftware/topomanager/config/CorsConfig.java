@@ -1,28 +1,38 @@
 package br.com.srcsoftware.topomanager.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Libera todos os endpoints
-                        .allowedOrigins(
-                            "https://topomanager.onrender.com", // Origem do seu Frontend no Render
-                            "http://localhost:8080",            // Para testes locais
-                            "http://127.0.0.1:8080"
-                        )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        
+        // Com allowCredentials(true), NÃO pode usar setAllowedOrigins("*")
+        config.setAllowCredentials(true);
+        
+        // Liste as origens explicitamente ou use Patterns
+        config.setAllowedOriginPatterns(Arrays.asList(
+            "https://topomanager.onrender.com",
+            "http://localhost:[*]",
+            "http://127.0.0.1:[*]"
+        ));
+        
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        
+        // Exponha o header para que o JS consiga ler o nome do arquivo no download
+        config.addExposedHeader("Content-Disposition");
+
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
