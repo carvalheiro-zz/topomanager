@@ -63,7 +63,7 @@ public class ExcelController {
                     .collect(Collectors.toList());
             
             
-        	List<GrupoPOJO> resultado = identificadorService.processarCenario1(arquivo.getInputStream(), listaDos15Numeros );
+        	List<GrupoPOJO> resultado = identificadorService.processar(arquivo.getInputStream(), listaDos15Numeros );
             
             watch.stop();
             
