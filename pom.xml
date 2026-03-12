@@ -54,6 +54,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>topomanager</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
