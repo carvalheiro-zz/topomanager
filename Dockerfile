@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Cache de dependências para build mais rápido
 COPY pom.xml .
-RUN mvn dependency:go-offline [cite: 2]
+RUN mvn dependency:go-offline
 
 # Compilação do JAR
 COPY src ./src
