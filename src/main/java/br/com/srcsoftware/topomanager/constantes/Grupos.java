@@ -9,7 +9,7 @@ public abstract class Grupos {
 	public static Map<String, LinkedHashSet<Integer>> grupos = new HashMap<String, LinkedHashSet<Integer>>();
 	
 	static {
-		grupos.put("G1|C1", new LinkedHashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 19, 22, 23, 24, 25)));
+		/*grupos.put("G1|C1", new LinkedHashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 19, 22, 23, 24, 25)));
 		grupos.put("G1|C2", new LinkedHashSet<Integer>(Arrays.asList(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 19, 22, 23, 24, 25)));
 		grupos.put("G1|C3", new LinkedHashSet<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 22, 23, 25)));
 		grupos.put("G1|C4", new LinkedHashSet<Integer>(Arrays.asList(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 22, 24, 25)));
@@ -206,6 +206,7 @@ public abstract class Grupos {
 		grupos.put("G20|C11", new LinkedHashSet<Integer>(Arrays.asList(3, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 25)));
 		grupos.put("G20|C12", new LinkedHashSet<Integer>(Arrays.asList(3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24, 25)));
 		grupos.put("G20|C13", new LinkedHashSet<Integer>(Arrays.asList(3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25)));
-		grupos.put("G20|C14", new LinkedHashSet<Integer>(Arrays.asList(3, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 25)));
+		grupos.put("G20|C14", new LinkedHashSet<Integer>(Arrays.asList(3, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 25)));*/
+		grupos.put("G21|C1", new LinkedHashSet<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)));
 	}
 }
