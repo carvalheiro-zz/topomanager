@@ -1,28 +1,28 @@
-# Estagio 1: Build (Maven + JDK 21)
+# Estágio 1: Build (Maven + JDK 21)
 FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
-# Cache de dependencias para build mais rapido
+# Cache de dependências para build mais rápido
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
-# Compilacao do JAR
+# Compilação do JAR
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Estagio 2: Runtime (Apenas JRE para producao)
+# Estágio 2: Runtime (Apenas JRE para produção)
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-# Segurança: Execucao com usuario nao-root
+# Segurança: Execução com usuário não-root
 RUN addgroup -S spring && adduser -S spring -G spring
 RUN mkdir /app/temp && chown spring:spring /app/temp
 USER spring:spring
 
-# Copia o JAR compilado
+# Copia o JAR do estágio de build com o nome definido no seu pom.xml
 COPY --from=build /app/target/topomanager.jar app.jar
 
 EXPOSE 8080
 
-# Execucao direta com unbuffered I/O direcionado para o console
-ENTRYPOINT ["java", "-Djava.io.tmpdir=/app/temp", "-jar", "app.jar"]
+# Injeta os parâmetros de memória definidos no docker-compose
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
