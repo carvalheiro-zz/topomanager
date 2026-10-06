@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    # Nome da imagem que você vai gerar no seu build local
+    image: srcsoftware/topomanager:1.0.0
+    container_name: topomanager-prod
+    restart: always
+    ports:
+      - "80:8080" # Cliente acessa via porta 80 padrão (http://localhost)
+    environment:
+      # JVM TUNING: 5GB de Heap e uso do G1GC para evitar pausas no Excel
+      - JAVA_OPTS=-Xms2g -Xmx5g -XX:+UseG1GC -XX:+ExitOnOutOfMemoryError
+      - LOG_PATH=/app/logs # Injeta o caminho dentro do container
+    volumes:
+      # Volume para persistência ou leitura de arquivos temporários
+      - ./temp:/app/temp
+      - ./logs:/app/logs # Mapeia a pasta 'logs' do Windows para a pasta do Container
+    deploy:
+      resources:
+        limits:
+          memory: 6.5G # Reserva de segurança para o sistema operacional do container
