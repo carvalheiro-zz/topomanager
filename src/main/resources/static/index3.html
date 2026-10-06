@@ -1,0 +1,140 @@
+<!-- Card 1: Positivos e Negativos -->
+<div class="card">
+    <h2>Carga de Dados (.xlsx)</h2>
+    <input type="file" id="inputArquivoProcessar" accept=".xlsx">
+    <button id="btnProcessar" class="btn" onclick="processar()">Importar e Processar Planilha</button>
+    <div id="resultado-info" style="margin-top: 10px;">
+        <span id="statusProcesso">Aguardando arquivo...</span>
+        <br>
+        <small id="tempoExecucao" style="color: #666; font-weight: bold;"></small>
+    </div>
+</div>
+
+<!-- Card 2: Colunas A-G -->
+<div class="card">
+    <h2>Carga de Dados (.xlsx)</h2>
+    <input type="file" id="inputArquivoUpload" accept=".xlsx">
+    <button class="btn" onclick="fazerUpload()">Importar Planilha</button>
+    <div id="statusUpload" class="status"></div>
+</div>
+
+<script>
+    let API_URL = '';
+
+    async function initApp() {
+        try {
+            const response = await fetch('/api/config/url');
+            if (!response.ok) throw new Error("Falha ao carregar configuração");
+            
+            const data = await response.json();
+            
+            // Garante a remoção de barras duplicadas na montagem da URL
+            const baseUrl = data.apiUrl.replace(/\/$/, "");
+            API_URL = `${baseUrl}/api/excel`;
+            
+            console.log("🚀 API configurada: " + API_URL);
+            document.querySelectorAll('.btn').forEach(b => b.disabled = false);
+        } catch (err) {
+            console.error("❌ Erro ao inicializar API_URL:", err);
+            const statusProc = document.getElementById("statusProcesso");
+            if (statusProc) {
+                statusProc.innerText = "❌ Erro de conexão com o servidor de configuração.";
+                statusProc.style.color = "red";
+            }
+        }
+    }
+
+    window.onload = initApp;
+
+    async function fazerUpload() {
+        const input = document.getElementById('inputArquivoUpload');
+        const status = document.getElementById('statusUpload');
+        
+        if (!input.files[0]) {
+            alert("Selecione um arquivo primeiro!");
+            return;
+        }
+
+        // Validação de limite compatível com o application.properties (50MB)
+        if (input.files[0].size > 50 * 1024 * 1024) {
+            alert("O arquivo excede o limite máximo permitido de 50MB!");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('arquivo', input.files[0]);
+
+        status.innerText = "Processando... aguarde.";
+        status.style.color = "blue";
+
+        try {
+            const response = await fetch(`${API_URL}/importar`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                status.innerText = "✅ Importado com sucesso!";
+                status.style.color = "green";
+            } else {
+                const erro = await response.text();
+                status.innerText = "❌ Erro: " + erro;
+                status.style.color = "red";
+            }
+        } catch (err) {
+            status.innerText = "❌ Erro de conexão com o servidor.";
+            status.style.color = "red";
+        }
+    }
+
+    async function processar() {
+        const btn = document.getElementById('btnProcessar');
+        const input = document.getElementById('inputArquivoProcessar');
+        const status = document.getElementById('statusProcesso');
+        const cadeia = document.getElementById('cadeiaNumeros').value;
+        const labelTempo = document.getElementById('tempoExecucao');
+        
+        if (!input.files[0]) {
+            alert("Selecione um arquivo primeiro!");
+            return;
+        }
+
+        if (input.files[0].size > 50 * 1024 * 1024) {
+            alert("O arquivo excede o limite máximo permitido de 50MB!");
+            return;
+        }
+
+        btn.disabled = true;
+        const formData = new FormData();
+        formData.append('arquivo', input.files[0]);
+        formData.append('cadeia', cadeia);
+
+        status.innerText = "⏳ Processando... aguarde.";
+        status.style.color = "blue";
+        labelTempo.innerText = "";
+
+        try {
+            const response = await fetch(`${API_URL}/processar`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                labelTempo.innerText = `🕒 Processado em: ${result.tempoExecucao} (Total: ${result.totalRegistros} itens)`;
+                status.innerText = "✅ " + (result.mensagem || "Processamento concluído!");
+                status.style.color = "green";
+            } else {
+                const erroMsg = await response.text();
+                status.innerText = "❌ Erro: " + erroMsg;
+                status.style.color = "red";
+            }
+        } catch (err) {
+            console.error(err);
+            status.innerText = "❌ Erro de conexão com o servidor.";
+            status.style.color = "red";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>

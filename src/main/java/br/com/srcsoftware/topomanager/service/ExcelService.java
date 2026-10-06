@@ -1,5 +1,6 @@
 package br.com.srcsoftware.topomanager.service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 
+import com.github.pjfanning.xlsx.StreamingReader;
+
 import br.com.srcsoftware.topomanager.model.po.NumerosNegativos;
 import br.com.srcsoftware.topomanager.model.po.NumerosPositivos;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -83,5 +85,24 @@ public class ExcelService {
 		
 			log.info("Linhas processadas da planilha 5005 (Negativos): {}", listaNegativosParaSalvar.size());
 		return listaNegativosParaSalvar;
+	}
+	
+	public void processarPlanilhaStreaming(InputStream inputStream) {
+	    // Configura janela de buffering em memória (mantém apenas 100 linhas na Heap)
+	    try (Workbook workbook = StreamingReader.builder()
+	            .rowCacheSize(100)      // Número de linhas salvas em memória por vez
+	            .bufferSize(4096)       // Tamanho do buffer de leitura
+	            .open(inputStream)) {
+
+	        Sheet sheet = workbook.getSheetAt(0);
+	        for (Row row : sheet) {
+	            // Processa a linha sem inflar a memória RAM
+	            for (Cell cell : row) {
+	                // Sua lógica de leitura de positivos / negativos
+	            }
+	        }
+	    } catch (Exception e) {
+	        log.error("Erro ao processar streaming de Excel", e);
+	    }
 	}
 }
