@@ -1,0 +1,87 @@
+2026-10-06T09:04:03.575-03:00  INFO 27356 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Starting TopomanagerApplication using Java 21.0.5 with PID 27356 (F:\SRC\PROJETOS_GIT\desenvolvimento\ws_21\topomanager\target\classes started by Gabriel Carvalheiro in F:\SRC\PROJETOS_GIT\desenvolvimento\ws_21\topomanager)
+2026-10-06T09:04:03.582-03:00 DEBUG 27356 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Running with Spring Boot v3.3.4, Spring v6.1.13
+2026-10-06T09:04:03.583-03:00  INFO 27356 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-10-06T09:04:04.494-03:00  INFO 27356 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-10-06T09:04:04.509-03:00  INFO 27356 --- [topomanager] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-06T09:04:04.510-03:00  INFO 27356 --- [topomanager] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2026-10-06T09:04:04.561-03:00  INFO 27356 --- [topomanager] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-06T09:04:04.562-03:00  INFO 27356 --- [topomanager] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 918 ms
+2026-10-06T09:04:04.735-03:00  INFO 27356 --- [topomanager] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-10-06T09:04:05.009-03:00  INFO 27356 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-10-06T09:04:05.018-03:00  INFO 27356 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Started TopomanagerApplication in 1.869 seconds (process running for 3.261)
+2026-10-06T09:04:22.341-03:00  INFO 27356 --- [topomanager] [tomcat-handler-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-06T09:04:22.342-03:00  INFO 27356 --- [topomanager] [tomcat-handler-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-06T09:04:22.343-03:00  INFO 27356 --- [topomanager] [tomcat-handler-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-06T09:04:42.235-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 210 (Positivos)
+2026-10-06T09:04:42.250-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.topomanager.service.ExcelService   : Leitura interrompida: Celula A está vazia.
+2026-10-06T09:04:42.250-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 210 (Positivos): 209
+2026-10-06T09:04:42.251-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 5005 (Negativos)
+2026-10-06T09:04:42.321-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 5005 (Negativos): 5004
+2026-10-06T09:04:44.386-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Quantidade após filtro de diversidade na 7ª posição: 0
+2026-10-06T09:04:44.389-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : StopWatch 'Processamento TopoManager': 2.6275098 seconds
+--------------------------------------------------------
+Seconds       %       Task name
+--------------------------------------------------------
+0.7283843     28%     Recuperando da planilha todos os numeros Positivos e Negativos
+0.0014533     00%     Separando todos os Grupos que possuam todos os Positivos.
+0.0647184     02%     Obtendo uma lista com 9 numeros.
+0.0767989     03%     Separando todos os Grupos que possuam todos os 9.
+1.7561549     67%     Iniciando o processo de combinação dos Grupos
+
+2026-10-06T09:04:44.389-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Tempo total: 2.6275098 segundos.
+2026-10-06T09:04:44.389-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Separando todos os Grupos com quantidades encontradas de 28 e 55, que não possuam os 2 numeros.
+2026-10-06T09:04:44.392-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Gupos encontrados: 0
+2026-10-06T09:04:44.392-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Separando todos os grupos encontrados numa lista para os de 28 e outra para os outros de 55.
+2026-10-06T09:04:44.393-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-06T09:04:44.393-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 28 de cada grupo.
+2026-10-06T09:04:44.393-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Os 6 Primeiros numeros dos grupos de 28: []
+2026-10-06T09:04:44.394-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 55 de cada grupo.
+2026-10-06T09:04:44.394-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Os 9 Ultimos numeros dos grupos de 55: []
+2026-10-06T09:04:44.394-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Unindo os 9 em todos os 6 de cada Grupo.
+2026-10-06T09:04:44.394-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Os 15 gerados: [].
+2026-10-06T09:04:44.394-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Obter os grupos que não possuem os 6
+2026-10-06T09:04:44.395-03:00  INFO 27356 --- [topomanager] [tomcat-handler-2] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-06T09:13:13.317-03:00  INFO 27356 --- [topomanager] [tomcat-handler-27] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 197 ms
+2026-10-06T09:26:58.677-03:00  INFO 21000 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Starting TopomanagerApplication using Java 21.0.5 with PID 21000 (F:\SRC\PROJETOS_GIT\desenvolvimento\ws_21\topomanager\target\classes started by Gabriel Carvalheiro in F:\SRC\PROJETOS_GIT\desenvolvimento\ws_21\topomanager)
+2026-10-06T09:26:58.679-03:00 DEBUG 21000 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Running with Spring Boot v3.3.4, Spring v6.1.13
+2026-10-06T09:26:58.680-03:00  INFO 21000 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-10-06T09:26:59.767-03:00  INFO 21000 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-10-06T09:26:59.782-03:00  INFO 21000 --- [topomanager] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-06T09:26:59.783-03:00  INFO 21000 --- [topomanager] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2026-10-06T09:26:59.834-03:00  INFO 21000 --- [topomanager] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-06T09:26:59.835-03:00  INFO 21000 --- [topomanager] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1099 ms
+2026-10-06T09:27:00.012-03:00  INFO 21000 --- [topomanager] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-10-06T09:27:00.289-03:00  INFO 21000 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-10-06T09:27:00.297-03:00  INFO 21000 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Started TopomanagerApplication in 2.013 seconds (process running for 2.765)
+2026-10-06T09:27:12.670-03:00  INFO 21000 --- [topomanager] [tomcat-handler-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-06T09:27:12.670-03:00  INFO 21000 --- [topomanager] [tomcat-handler-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-06T09:27:12.672-03:00  INFO 21000 --- [topomanager] [tomcat-handler-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-10-06T09:28:25.842-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 210 (Positivos)
+2026-10-06T09:28:25.916-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.topomanager.service.ExcelService   : Leitura interrompida: Celula A está vazia.
+2026-10-06T09:28:25.917-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 210 (Positivos): 209
+2026-10-06T09:28:25.918-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 5005 (Negativos)
+2026-10-06T09:28:26.114-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 5005 (Negativos): 5004
+2026-10-06T09:28:28.278-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Quantidade após filtro de diversidade na 7ª posição: 0
+2026-10-06T09:28:28.282-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : StopWatch 'Processamento TopoManager': 2.5633214 seconds
+--------------------------------------------------------
+Seconds       %       Task name
+--------------------------------------------------------
+0.6457282     25%     Recuperando da planilha todos os numeros Positivos e Negativos
+0.0016644     00%     Separando todos os Grupos que possuam todos os Positivos.
+0.0688398     03%     Obtendo uma lista com 9 numeros.
+0.0711585     03%     Separando todos os Grupos que possuam todos os 9.
+1.7759305     69%     Iniciando o processo de combinação dos Grupos
+
+2026-10-06T09:28:28.282-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Tempo total: 2.5633214 segundos.
+2026-10-06T09:28:28.282-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Separando todos os Grupos com quantidades encontradas de 28 e 55, que não possuam os 2 numeros.
+2026-10-06T09:28:28.286-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Gupos encontrados: 0
+2026-10-06T09:28:28.286-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Separando todos os grupos encontrados numa lista para os de 28 e outra para os outros de 55.
+2026-10-06T09:28:28.288-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-06T09:28:28.289-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 28 de cada grupo.
+2026-10-06T09:28:28.289-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Os 6 Primeiros numeros dos grupos de 28: []
+2026-10-06T09:28:28.289-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 55 de cada grupo.
+2026-10-06T09:28:28.289-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Os 9 Ultimos numeros dos grupos de 55: []
+2026-10-06T09:28:28.290-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Unindo os 9 em todos os 6 de cada Grupo.
+2026-10-06T09:28:28.290-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Os 15 gerados: [].
+2026-10-06T09:28:28.290-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Obter os grupos que não possuem os 6
+2026-10-06T09:28:28.292-03:00  INFO 21000 --- [topomanager] [tomcat-handler-40] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.

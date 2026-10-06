@@ -26,6 +26,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
+import com.github.pjfanning.xlsx.StreamingReader;
+
 import br.com.srcsoftware.topomanager.constantes.Grupos;
 import br.com.srcsoftware.topomanager.constantes.NumerosBase;
 import br.com.srcsoftware.topomanager.model.po.NumerosNegativos;
@@ -41,6 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 public class IdentificadorService {
 
 	private final ExcelService excelService;
+	
+	private static final int ROW_CACHE_SIZE = 100;
+    private static final int BUFFER_SIZE = 4096;
 	
 	public List<GrupoPOJO> processar(InputStream is, List<Integer> listaDos15Numeros) throws Exception{
 		try {
@@ -72,7 +77,11 @@ public class IdentificadorService {
 			List<NumerosNegativos> negativos = new ArrayList<>();
 
 			watch.start("Recuperando da planilha todos os numeros Positivos e Negativos");
-			try (Workbook workbook = new XSSFWorkbook(is)) {
+			//try (Workbook workbook = new XSSFWorkbook(is)) {
+			try (Workbook workbook = StreamingReader.builder()
+	                .rowCacheSize(ROW_CACHE_SIZE)
+	                .bufferSize(BUFFER_SIZE)
+	                .open(is)) {
 				positivos = excelService.importar210(workbook);
 				negativos = excelService.importar5005(workbook);
 			}
