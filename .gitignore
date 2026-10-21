@@ -18,3 +18,5 @@ bin/
 # Sistema
 .DS_Store
 Thumbs.db
+
+*.log
