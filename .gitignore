@@ -19,7 +19,7 @@ bin/
 .DS_Store
 Thumbs.db
 
-*.log
-log/
+*.logs
+logs/
 *.docs
 docs/
