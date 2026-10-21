@@ -21,3 +21,5 @@ Thumbs.db
 
 *.log
 log/
+*.docs
+docs/
