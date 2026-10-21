@@ -1,0 +1,73 @@
+2026-10-14T11:54:20.253-03:00  INFO 6580 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Starting TopomanagerApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 6580 (K:\SRC\topomanager\dist sem docker\topomanager.jar started by Gabriel Carvalheiro in K:\SRC\topomanager\dist sem docker)
+2026-10-14T11:54:20.255-03:00 DEBUG 6580 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Running with Spring Boot v3.3.4, Spring v6.1.13
+2026-10-14T11:54:20.255-03:00  INFO 6580 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-10-14T11:54:22.037-03:00  INFO 6580 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-10-14T11:54:22.062-03:00  INFO 6580 --- [topomanager] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-14T11:54:22.062-03:00  INFO 6580 --- [topomanager] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2026-10-14T11:54:22.129-03:00  INFO 6580 --- [topomanager] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-14T11:54:22.130-03:00  INFO 6580 --- [topomanager] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1785 ms
+2026-10-14T11:54:22.429-03:00  INFO 6580 --- [topomanager] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-10-14T11:54:22.890-03:00  INFO 6580 --- [topomanager] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2026-10-14T11:54:22.978-03:00  INFO 6580 --- [topomanager] [main] b.c.s.t.TopomanagerApplication           : Started TopomanagerApplication in 3.501 seconds (process running for 5.139)
+2026-10-14T11:54:34.652-03:00  INFO 6580 --- [topomanager] [tomcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-14T11:54:34.653-03:00  INFO 6580 --- [topomanager] [tomcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-14T11:54:34.655-03:00  INFO 6580 --- [topomanager] [tomcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-14T11:54:35.242-03:00  INFO 6580 --- [topomanager] [tomcat-handler-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 277 ms
+2026-10-14T11:58:43.846-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 210 (Positivos)
+2026-10-14T11:58:43.999-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.topomanager.service.ExcelService   : Leitura interrompida: Celula A está vazia.
+2026-10-14T11:58:43.999-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 210 (Positivos): 209
+2026-10-14T11:58:44.001-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 5005 (Negativos)
+2026-10-14T11:58:44.252-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 5005 (Negativos): 5004
+2026-10-14T11:58:44.271-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Quantidade após filtro de diversidade na 7ª posição: 0
+2026-10-14T11:58:44.276-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : StopWatch 'Processamento TopoManager': 1.1658848 seconds
+--------------------------------------------------------
+Seconds       %       Task name
+--------------------------------------------------------
+1.1487886     99%     Recuperando da planilha todos os numeros Positivos e Negativos
+0.0016655     00%     Separando todos os Grupos que possuam todos os Positivos.
+0.0151336     01%     Obtendo uma lista com 9 numeros.
+0.0000232     00%     Separando todos os Grupos que possuam todos os 9.
+0.0002739     00%     Iniciando o processo de combinação dos Grupos
+
+2026-10-14T11:58:44.277-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Tempo total: 1.1658848 segundos.
+2026-10-14T11:58:44.279-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Separando todos os Grupos com quantidades encontradas de 28 e 55, que não possuam os 2 numeros.
+2026-10-14T11:58:44.281-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Gupos encontrados: 0
+2026-10-14T11:58:44.282-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Separando todos os grupos encontrados numa lista para os de 28 e outra para os outros de 55.
+2026-10-14T11:58:44.283-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-14T11:58:44.283-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 28 de cada grupo.
+2026-10-14T11:58:44.284-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Os 6 Primeiros numeros dos grupos de 28: []
+2026-10-14T11:58:44.284-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 55 de cada grupo.
+2026-10-14T11:58:44.284-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Os 9 Ultimos numeros dos grupos de 55: []
+2026-10-14T11:58:44.285-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Unindo os 9 em todos os 6 de cada Grupo.
+2026-10-14T11:58:44.285-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Os 15 gerados: [].
+2026-10-14T11:58:44.285-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Obter os grupos que não possuem os 6
+2026-10-14T11:58:44.286-03:00  INFO 6580 --- [topomanager] [tomcat-handler-15] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-14T12:00:24.134-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 210 (Positivos)
+2026-10-14T12:00:24.186-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.topomanager.service.ExcelService   : Leitura interrompida: Celula A está vazia.
+2026-10-14T12:00:24.203-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 210 (Positivos): 209
+2026-10-14T12:00:24.221-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.topomanager.service.ExcelService   : Iniciando processamento da planilha 5005 (Negativos)
+2026-10-14T12:00:24.410-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.topomanager.service.ExcelService   : Linhas processadas da planilha 5005 (Negativos): 5004
+2026-10-14T12:00:25.785-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Quantidade após filtro de diversidade na 7ª posição: 0
+2026-10-14T12:00:25.786-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : StopWatch 'Processamento TopoManager': 1.6044643 seconds
+--------------------------------------------------------
+Seconds       %       Task name
+--------------------------------------------------------
+0.3112418     19%     Recuperando da planilha todos os numeros Positivos e Negativos
+0.0011221     00%     Separando todos os Grupos que possuam todos os Positivos.
+0.0744015     05%     Obtendo uma lista com 9 numeros.
+0.0366288     02%     Separando todos os Grupos que possuam todos os 9.
+1.1810701     74%     Iniciando o processo de combinação dos Grupos
+
+2026-10-14T12:00:25.786-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Tempo total: 1.6044643 segundos.
+2026-10-14T12:00:25.787-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Separando todos os Grupos com quantidades encontradas de 28 e 55, que não possuam os 2 numeros.
+2026-10-14T12:00:25.787-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Gupos encontrados: 0
+2026-10-14T12:00:25.787-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Separando todos os grupos encontrados numa lista para os de 28 e outra para os outros de 55.
+2026-10-14T12:00:25.788-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.
+2026-10-14T12:00:25.788-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 28 de cada grupo.
+2026-10-14T12:00:25.788-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Os 6 Primeiros numeros dos grupos de 28: []
+2026-10-14T12:00:25.789-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Separando apenas 1 de 55 de cada grupo.
+2026-10-14T12:00:25.789-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Os 9 Ultimos numeros dos grupos de 55: []
+2026-10-14T12:00:25.790-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Unindo os 9 em todos os 6 de cada Grupo.
+2026-10-14T12:00:25.790-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Os 15 gerados: [].
+2026-10-14T12:00:25.790-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Obter os grupos que não possuem os 6
+2026-10-14T12:00:25.791-03:00  INFO 6580 --- [topomanager] [tomcat-handler-20] b.c.s.t.service.IdentificadorService     : Iniciando exportação para arquivo TXT.

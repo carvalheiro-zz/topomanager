@@ -1,6 +1,7 @@
 package br.com.srcsoftware.topomanager.controller;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.srcsoftware.topomanager.constantes.Grupos;
 import br.com.srcsoftware.topomanager.controller.response.RespostaProcessamento;
 import br.com.srcsoftware.topomanager.model.pojo.GrupoPOJO;
 import br.com.srcsoftware.topomanager.service.IdentificadorService;
@@ -39,7 +41,9 @@ public class ExcelController {
     public ResponseEntity<?> processar(
             @Parameter(description = "Arquivo .xlsx ou .xls") 
             @RequestParam("arquivo") MultipartFile arquivo,
-            @RequestParam("cadeia") String cadeiaNumeros) {
+            @RequestParam("cadeia") String cadeiaNumeros,
+            @RequestParam("validar1540")  boolean validar1540,
+            @RequestParam("grupo") String grupo) {
         
     	StopWatch watch = new StopWatch();
         watch.start();
@@ -61,9 +65,19 @@ public class ExcelController {
                     .filter(s -> !s.isEmpty())
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
+                    
+            if(grupo != null && !grupo.isBlank()) {
+	            String grupoPrefixo = grupo.split(" ")[0];
+	            LinkedHashSet<Integer> numeros = Arrays.stream(grupo.split(" ")[1].split(","))
+	                .map(String::trim)
+	                .filter(s -> !s.isEmpty())
+	                .map(Integer::valueOf)
+	                .collect(Collectors.toCollection(LinkedHashSet::new));
+	            Grupos.grupos.clear();
+	            Grupos.grupos.put(grupoPrefixo, numeros);
+            }
             
-            
-        	List<GrupoPOJO> resultado = identificadorService.processar(arquivo.getInputStream(), listaDos15Numeros );
+        	List<GrupoPOJO> resultado = identificadorService.processar(arquivo.getInputStream(), listaDos15Numeros, validar1540 );
             
             watch.stop();
             

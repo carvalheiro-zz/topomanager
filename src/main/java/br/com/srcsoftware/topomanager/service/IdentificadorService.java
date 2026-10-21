@@ -47,11 +47,11 @@ public class IdentificadorService {
 	private static final int ROW_CACHE_SIZE = 100;
     private static final int BUFFER_SIZE = 4096;
 	
-	public List<GrupoPOJO> processar(InputStream is, List<Integer> listaDos15Numeros) throws Exception{
+	public List<GrupoPOJO> processar(InputStream is, List<Integer> listaDos15Numeros, boolean validar1540) throws Exception{
 		try {
 			StopWatch watch = new StopWatch("Processamento TopoManager");
 			
-			List<GrupoPOJO> resultadoCenario1 = processarCenario1(is, listaDos15Numeros);
+			List<GrupoPOJO> resultadoCenario1 = processarCenario1(is, listaDos15Numeros, validar1540);
 			
 			ArrayList<GruposAgrupadosPOJO> gruposSemOs6 = processarCenario2(watch, resultadoCenario1);
 			
@@ -69,7 +69,7 @@ public class IdentificadorService {
 		}
 	}
 
-	public List<GrupoPOJO> processarCenario1(InputStream is, List<Integer> listaDos15Numeros) throws Exception {
+	public List<GrupoPOJO> processarCenario1(InputStream is, List<Integer> listaDos15Numeros, boolean validar1540) throws Exception {
 		StopWatch watch = new StopWatch("Processamento TopoManager");
 
 		try {
@@ -117,20 +117,27 @@ public class IdentificadorService {
 			List<GrupoPOJO> resultadoUnificadoGeral = gerarListaDeCombinacoes(gruposComPositivosEncontrados, gruposComOs9Encontrados);
 			watch.stop();
 
-			List<GrupoPOJO> encontrados1540 = filtrarPorRepeticaoDeId(resultadoUnificadoGeral, 1540);
+			if(validar1540) {
+				List<GrupoPOJO> encontrados1540 = filtrarPorRepeticaoDeId(resultadoUnificadoGeral, 1540);
+	
+				// Novo filtro aplicado sobre o resultado anterior
+				List<GrupoPOJO> listaFinalComFiltroSetimaPosicao = filtrarPorDiversidadeNaSetimaPosicao(encontrados1540);
+	
+				log.info("Quantidade após filtro de diversidade na 7ª posição: {}", listaFinalComFiltroSetimaPosicao.size());			
 
-			// Novo filtro aplicado sobre o resultado anterior
-			List<GrupoPOJO> listaFinalComFiltroSetimaPosicao = filtrarPorDiversidadeNaSetimaPosicao(encontrados1540);
+				return listaFinalComFiltroSetimaPosicao;
+			}
 
-			log.info("Quantidade após filtro de diversidade na 7ª posição: {}", listaFinalComFiltroSetimaPosicao.size());
+			return resultadoUnificadoGeral;
+			//log.info(watch.prettyPrint());
+			//log.info("Tempo total: {} segundos.", watch.getTotalTimeSeconds());
 
-			log.info(watch.prettyPrint());
-			log.info("Tempo total: {} segundos.", watch.getTotalTimeSeconds());
-
-			return listaFinalComFiltroSetimaPosicao;
 		} catch (Exception e) {
 			log.error("Erro no processamento do Cenário 1", e);
 			throw e;
+		}finally {
+			log.info(watch.prettyPrint());
+			log.info("Tempo total: {} segundos.", watch.getTotalTimeSeconds());
 		}
 	}
 
@@ -487,9 +494,16 @@ public class IdentificadorService {
 							agrupamentos.setAgrupamentosDeNumeros(new LinkedHashSet<>());
 						}
 						agrupamentos.getAgrupamentosDeNumeros().add(numerosGrupo);
-					} 
+					} else {
+						log.info(" {} TEM {}",numerosGrupo, numerosNaoDeveTer);
+					}
 				}
-
+// FIXME Paramos aqui, esta dando erro quando 4,8 4,12 4,15 etc
+				if( agrupamentos.getAgrupamentosDeNumeros() == null ) {
+					log.info(agrupamentos.getGrupoId());
+					continue;
+				}
+				
 				int quantidadeLinhasEncontradas = agrupamentos.getAgrupamentosDeNumeros().size();
 				if (quantidadeLinhasEncontradas != 28 && quantidadeLinhasEncontradas != 55) {
 					continue;
@@ -521,7 +535,7 @@ public class IdentificadorService {
 
 		String pasta = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))+"-"+tipoLista;
 				
-
+		log.info("Quantidade de Agrupamentos {}", listaAgrupada.size());
 		for (GruposAgrupadosPOJO item : listaAgrupada) {
 			String id = item.getGrupoId();
 			
@@ -535,6 +549,7 @@ public class IdentificadorService {
 			// Garante que o diretório existe
 			Files.createDirectories(Paths.get(caminhoInternoContainer));
 			
+			log.info("Exportando arquivo TXT para{}", caminhoCompleto);
 			try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(caminhoCompleto))) {
 
 				// Percorremos cada LinkedHashSet<Integer> dentro do LinkedHashSet principal

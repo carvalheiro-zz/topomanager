@@ -17,30 +17,49 @@
 </head>
 <body>
 	<div class="card">
-		<div style="margin-top: 20px;">
-		    <label for="cadeiaNumeros" style="display: block; margin-bottom: 5px;">Cadeia de Números:</label>
-		    <input type="text" 
-		           id="cadeiaNumeros" 
-		           name="cadeiaNumeros" 
-		           size="50" 
-		           maxlength="50" 
-		           placeholder="Ex: 2,3,5,6,9,10,11,13,14,16,18,20,23,24,25"
-		           oninput="this.value = this.value.replace(/[^0-9,]/g, '')"
-		           style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">
-		</div>
-			
-        <h2>Carga de Dados (.xlsx)</h2>
-        <p>Selecione uma planilha com os POSITIVOS e NEGATIVOS para importar.</p>
-        <input type="file" id="inputArquivo" accept=".xlsx">
-        <button id="btnProcessar" class="btn" onclick="processar()">Importar e Processar Planilha</button>
-        <!--<div id="statusProcesso" class="status"></div>-->
+	    <div style="margin-top: 20px;">
+	        <label for="cadeiaNumeros" style="display: block; margin-bottom: 5px;">Cadeia de Números:</label>
+	        <input type="text" 
+	               id="cadeiaNumeros" 
+	               name="cadeiaNumeros" 
+	               size="50" 
+	               maxlength="50" 
+	               placeholder="Ex: 2,3,5,6,9,10,11,13,14,16,18,20,23,24,25"
+	               oninput="this.value = this.value.replace(/[^0-9,]/g, '')"
+	               style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">
+	    </div>
+
+	    <div style="margin-top: 15px; margin-bottom: 15px;">
+	        <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+	            <input type="checkbox" id="validar1540" name="validar1540" style="margin-right: 8px; width: 16px; height: 16px;">
+	            Validar regra 1540
+	        </label>
+	    </div>
 		
-		<div id="resultado-info" style="margin-top: 10px;">
-		    <span id="statusProcesso">Aguardando arquivo...</span>
-		    <br>
-		    <small id="tempoExecucao" style="color: #666; font-weight: bold;"></small>
-		</div>
-    </div>
+		<div style="margin-top: 20px;">
+			        <label for="grupoDinamico" style="display: block; margin-bottom: 5px;">Grupo que quiser:</label>
+			        <input type="text" 
+			               id="grupoDinamico" 
+			               name="grupoDinamico" 
+			               size="75" 
+			               maxlength="100" 
+			               placeholder="Ex: G21|C1 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25"
+			               oninput="this.value = this.value.replace(/[A-Z][^0-9,]/g, '')"
+			               style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">
+			    </div>
+	        
+	    <h2>Carga de Dados (.xlsx)</h2>
+	    <p>Selecione uma planilha com os POSITIVOS e NEGATIVOS para importar.</p>
+	    <input type="file" id="inputArquivo" accept=".xlsx">
+	    <button id="btnProcessar" class="btn" onclick="processar()">Importar e Processar Planilha</button>
+	    <!--<div id="statusProcesso" class="status"></div>-->
+	    
+	    <div id="resultado-info" style="margin-top: 10px;">
+	        <span id="statusProcesso">Aguardando arquivo...</span>
+	        <br>
+	        <small id="tempoExecucao" style="color: #666; font-weight: bold;"></small>
+	    </div>
+	</div>
 
     <br>
 		
@@ -165,21 +184,27 @@
 		}
 		
 		async function processar() {
-			document.getElementById('btnProcessar').disabled = true;
-			
+		    const btnProcessar = document.getElementById('btnProcessar');
+		    btnProcessar.disabled = true;
+		    
 		    const input = document.getElementById('inputArquivo');
 		    const status = document.getElementById('statusProcesso');
 		    const cadeia = document.getElementById('cadeiaNumeros').value;
+		    const validar1540 = document.getElementById('validar1540').checked; // Captura o valor do checkbox
 		    const labelTempo = document.getElementById('tempoExecucao');
+			const grupo = document.getElementById('grupoDinamico').value;
 		    
 		    if (!input.files[0]) {
 		        alert("Selecione um arquivo primeiro!");
+		        btnProcessar.disabled = false; // Garante que o botão seja reabilitado
 		        return;
 		    }
 
 		    const formData = new FormData();
 		    formData.append('arquivo', input.files[0]);
 		    formData.append('cadeia', cadeia);
+		    formData.append('validar1540', validar1540); // Envia o parâmetro para a Controller
+			formData.append('grupo', grupo);
 
 		    status.innerText = "⏳ Processando... aguarde.";
 		    status.style.color = "blue";
@@ -194,8 +219,8 @@
 		        // Verificamos se a resposta foi sucesso ANTES de tentar ler como JSON
 		        if (response.ok) {
 		            const result = await response.json();
-					
-					labelTempo.innerText = `🕒 Processado em: ${result.tempoExecucao} (Total: ${result.totalRegistros} itens)`;
+		            
+		            labelTempo.innerText = `🕒 Processado em: ${result.tempoExecucao} (Total: ${result.totalRegistros} itens)`;
 		            
 		            status.innerText = "✅ " + (result.mensagem || "Processamento concluído!");
 		            status.style.color = "green";
@@ -209,8 +234,9 @@
 		        console.error(err);
 		        status.innerText = "❌ Erro de conexão com o servidor.";
 		        status.style.color = "red";
+		    } finally {
+		        btnProcessar.disabled = false; // Garante que o botão será reabilitado mesmo se ocorrer erro
 		    }
-			document.getElementById('btnProcessar').disabled = false;
 		}
     </script>
 </body>
